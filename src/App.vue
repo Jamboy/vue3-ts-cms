@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-03 15:32:23
- * @LastEditTime: 2021-12-03 18:21:06
+ * @LastEditTime: 2021-12-03 15:53:32
 -->
 <template>
   <div id="nav">
@@ -16,6 +16,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'App',
+  setup() {},
 })
 </script>
 
