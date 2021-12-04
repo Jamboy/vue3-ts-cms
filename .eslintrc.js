@@ -1,3 +1,9 @@
+/*
+ * @Description: eslint 配置
+ * @Author: Jamboy
+ * @Date: 2021-12-03 18:00:05
+ * @LastEditTime: 2021-12-04 17:45:50
+ */
 module.exports = {
   root: true,
   env: {
@@ -17,6 +23,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   },
 }
