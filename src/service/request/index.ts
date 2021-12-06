@@ -2,52 +2,89 @@
  * @Description: 请求方法封装
  * @Author: Jamboy
  * @Date: 2021-12-04 16:00:33
- * @LastEditTime: 2021-12-04 18:19:26
+ * @LastEditTime: 2021-12-06 11:17:19
  */
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { JARequestInterceptors, JARequestConfig } from './type'
+import 'element-plus/es/components/loading/style/css'
+import { ElLoading, ILoadingInstance } from 'element-plus'
 
+const DEFAULT_LOADING = true
 class JARequest {
   instance: AxiosInstance
   interceptors?: JARequestInterceptors
+  loading?: ILoadingInstance
+  showLoading: boolean
 
   constructor(config: JARequestConfig) {
     this.instance = axios.create(config)
     this.interceptors = config.interceptors
+    this.showLoading = config.showLoading ?? DEFAULT_LOADING
+    console.log('config.showLoading : ', config.showLoading)
 
     // 请求拦截
     this.instance.interceptors.request.use(
-      this.interceptors?.requestInterceptors,
+      this.interceptors?.requestInterceptor,
       this.interceptors?.requestInterceptorsCatch
     )
     // 响应拦截
     this.instance.interceptors.response.use(
-      this.interceptors?.responseInterceptors,
+      this.interceptors?.responseInterceptor,
       this.interceptors?.responseInterceptorsCatch
     )
 
-    // // 所有实例的拦截器
-    // this.instance.interceptors.response.use(
-    //   (config) => {
-    //     return config
-    //   },
-    //   (err) => {
-    //     return err
-    //   }
-    // )
+    // 所有实例请求前的拦截器
+    this.instance.interceptors.request.use(
+      (config) => {
+        // 显示全局加载状态
+        if (this.showLoading) {
+          this.loading = ElLoading.service({
+            lock: true,
+            text: '加载中...',
+            background: 'rgba(0, 0, 0, 0.1)',
+          })
+        }
+        return config
+      },
+      (err) => {
+        return err
+      }
+    )
+
+    // 所有实例返回的拦截器
+    this.instance.interceptors.response.use(
+      (config) => {
+        // 关闭全局加载状态
+        this.loading?.close()
+        return config
+      },
+      (err) => {
+        return err
+      }
+    )
   }
 
   request(config: JARequestConfig): any {
     // 定义每个方法的拦截
-    if (config.interceptors?.requestInterceptors) {
-      config = config.interceptors.requestInterceptors(config)
+    if (config.interceptors?.requestInterceptor) {
+      config = config.interceptors.requestInterceptor(config)
     }
-    this.instance.request(config).then((res) => {
-      if (config.interceptors?.responseInterceptors) {
-        res = config.interceptors.responseInterceptors(res)
-      }
-    })
+
+    if (config.showLoading === false) {
+      this.showLoading = config.showLoading
+    }
+    this.instance
+      .request(config)
+      .then((res) => {
+        if (config.interceptors?.responseInterceptor) {
+          res = config.interceptors.responseInterceptor(res)
+        }
+        this.showLoading = DEFAULT_LOADING
+      })
+      .catch((err) => {
+        this.showLoading = DEFAULT_LOADING
+      })
   }
 }
 
