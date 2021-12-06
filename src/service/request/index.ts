@@ -2,7 +2,7 @@
  * @Description: 请求方法封装
  * @Author: Jamboy
  * @Date: 2021-12-04 16:00:33
- * @LastEditTime: 2021-12-06 11:17:19
+ * @LastEditTime: 2021-12-06 12:02:56
  */
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
@@ -21,8 +21,17 @@ class JARequest {
     this.instance = axios.create(config)
     this.interceptors = config.interceptors
     this.showLoading = config.showLoading ?? DEFAULT_LOADING
-    console.log('config.showLoading : ', config.showLoading)
 
+    this.createGlobalInterceptor()
+    this.createInstanceInterceptor()
+  }
+
+  /**
+   * @description: 全局拦截器添加
+   * @param {*}
+   * @return {*}
+   */
+  protected createGlobalInterceptor(): void {
     // 请求拦截
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
@@ -33,7 +42,14 @@ class JARequest {
       this.interceptors?.responseInterceptor,
       this.interceptors?.responseInterceptorsCatch
     )
+  }
 
+  /**
+   * @description: 实例拦截器添加
+   * @param {*}
+   * @return {*}
+   */
+  protected createInstanceInterceptor(): void {
     // 所有实例请求前的拦截器
     this.instance.interceptors.request.use(
       (config) => {
@@ -65,26 +81,46 @@ class JARequest {
     )
   }
 
-  request(config: JARequestConfig): any {
-    // 定义每个方法的拦截
-    if (config.interceptors?.requestInterceptor) {
-      config = config.interceptors.requestInterceptor(config)
-    }
+  request<T>(config: JARequestConfig<T>): Promise<T> {
+    return new Promise((resolver, reject) => {
+      // 定义每个方法的拦截
+      if (config.interceptors?.requestInterceptor) {
+        config = config.interceptors.requestInterceptor(config)
+      }
 
-    if (config.showLoading === false) {
-      this.showLoading = config.showLoading
-    }
-    this.instance
-      .request(config)
-      .then((res) => {
-        if (config.interceptors?.responseInterceptor) {
-          res = config.interceptors.responseInterceptor(res)
-        }
-        this.showLoading = DEFAULT_LOADING
-      })
-      .catch((err) => {
-        this.showLoading = DEFAULT_LOADING
-      })
+      if (config.showLoading === false) {
+        this.showLoading = config.showLoading
+      }
+      this.instance
+        .request<any, T>(config)
+        .then((res) => {
+          if (config.interceptors?.responseInterceptor) {
+            res = config.interceptors.responseInterceptor(res)
+          }
+          this.showLoading = DEFAULT_LOADING
+          resolver(res)
+        })
+        .catch((err) => {
+          this.showLoading = DEFAULT_LOADING
+          reject(err)
+        })
+    })
+  }
+
+  get<T>(config: JARequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
+  }
+
+  post<T>(config: JARequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'POST' })
+  }
+
+  delete<T>(config: JARequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'DELETE' })
+  }
+
+  patch<T>(config: JARequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
 
