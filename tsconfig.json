@@ -1,5 +1,7 @@
 {
+  // 编译选项
   "compilerOptions": {
+    // 编译目标代码(ts->js es5/6)
     "target": "esnext",
     "module": "esnext",
     "strict": true,

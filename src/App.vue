@@ -1,14 +1,10 @@
 <!--
- * @Description:
+ * @Description: 入口
  * @Author: Jamboy
  * @Date: 2021-12-03 15:32:23
- * @LastEditTime: 2021-12-04 14:24:34
+ * @LastEditTime: 2021-12-06 13:59:36
 -->
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view />
 </template>
 <script lang="ts">
@@ -19,25 +15,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="less"></style>
