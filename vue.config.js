@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-03 22:01:24
- * @LastEditTime: 2021-12-04 15:49:42
+ * @LastEditTime: 2021-12-08 11:35:55
  */
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack')
@@ -11,6 +11,18 @@ const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
   publicPath: './', //配置本地时打包时引入JS url,
+  // 解决跨域问题
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': '',
+        },
+        changeOrigin: true,
+      },
+    },
+  },
   configureWebpack: {
     plugins: [
       AutoImport({
