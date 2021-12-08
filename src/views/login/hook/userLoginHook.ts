@@ -2,7 +2,7 @@
  * @Description: 登录面板登录hook
  * @Author: Jamboy
  * @Date: 2021-12-07 16:35:14
- * @LastEditTime: 2021-12-07 18:15:15
+ * @LastEditTime: 2021-12-08 09:40:00
  */
 import { ref } from 'vue'
 import { TabsPaneContext } from 'element-plus'
@@ -23,8 +23,10 @@ export default function useLoginHook(isKeepPassword: boolean): any {
 
   const handleLoginClick = (): void => {
     if (isAccountLogin.value) {
-      console.log('isAccountLogin: ')
-      loginAccountRef.value?.loginAction(isKeepPassword)
+      console.log('isAccountLogin: ', isAccountLogin)
+      console.log('isKeepPassword: ', isKeepPassword)
+      // fixme: 传过来的值非响应式？
+      loginAccountRef.value?.loginAction(true)
     } else {
       console.log('loginPhoneRef: ')
       loginPhoneRef.value?.loginAction(isKeepPassword)

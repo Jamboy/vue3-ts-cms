@@ -2,7 +2,7 @@
  * @Description: 账号登录面板
  * @Author: Jamboy
  * @Date: 2021-12-07 10:17:58
- * @LastEditTime: 2021-12-07 18:17:17
+ * @LastEditTime: 2021-12-08 10:08:26
 -->
 <template>
   <div>
@@ -27,19 +27,23 @@
 import { ElForm } from 'element-plus'
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+import { useStore } from 'vuex'
 import { accountRules } from '../config/account-config'
+
+import localCache from '../../../utils/cache'
+
 export default defineComponent({
   setup() {
+    const store = useStore()
     const account = reactive({
-      name: '',
-      password: '',
+      name: localCache.getCache('name') ?? '',
+      password: localCache.getCache('password') ?? '',
     })
 
     const accountFormRef = ref<InstanceType<typeof ElForm>>()
     const router = useRouter()
-    const loginAction = (isKeepPassword: boolean) => {
-      console.log('loginAction: ', '正在登陸')
+    const loginAction = (isKeepPassword = true) => {
+      console.log('loginAction: ', '正在登陸', isKeepPassword)
       accountFormRef.value?.validate((valid) => {
         console.log(valid)
         if (valid) {
@@ -50,12 +54,17 @@ export default defineComponent({
           router.push({
             name: 'Main',
           })
+
+          //
+          store.dispatch('login/accountLoginAction', { ...account })
         }
       })
     }
 
     const savePassword = () => {
       console.log('保存密码')
+      localCache.setCache('name', account.name)
+      localCache.setCache('password', account.password)
     }
 
     return { account, accountRules, loginAction, accountFormRef }

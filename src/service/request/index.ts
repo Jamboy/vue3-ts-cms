@@ -2,7 +2,7 @@
  * @Description: 请求方法封装
  * @Author: Jamboy
  * @Date: 2021-12-04 16:00:33
- * @LastEditTime: 2021-12-06 12:02:56
+ * @LastEditTime: 2021-12-08 10:48:20
  */
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'

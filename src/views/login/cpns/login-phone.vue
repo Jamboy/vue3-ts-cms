@@ -2,7 +2,7 @@
  * @Description: 手机号登录组件
  * @Author: Jamboy
  * @Date: 2021-12-06 16:52:43
- * @LastEditTime: 2021-12-07 18:21:34
+ * @LastEditTime: 2021-12-08 09:26:28
 -->
 
 <template>
@@ -29,7 +29,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { ElForm } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { phoneRules } from '../config/phone-config'
-import LocalCache from '@/utils/cache'
+import localCache from '@/utils/cache'
 export default defineComponent({
   setup() {
     const phoneData = reactive({
@@ -59,7 +59,6 @@ export default defineComponent({
 
     const savePassword = () => {
       console.log('保存密码')
-      LocalCache.setCache('phonePwd', phoneData)
     }
     return { phoneRules, phoneData, loginAction, phoneFormRef }
   },
