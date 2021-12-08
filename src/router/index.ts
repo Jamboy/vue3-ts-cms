@@ -2,11 +2,12 @@
  * @Description: 路由配置
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2021-12-07 15:52:35
+ * @LastEditTime: 2021-12-08 14:41:29
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import Login from '../views/login/Login.vue'
+import localCache from '@/utils/cache'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -32,6 +33,15 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+})
+
+router.beforeEach((to) => {
+  const token = localCache.getCache('token')
+  if (to.path !== '/login') {
+    if (!token) {
+      return '/login'
+    }
+  }
 })
 
 export default router
