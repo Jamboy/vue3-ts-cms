@@ -2,7 +2,7 @@
  * @Description: 登录面板
  * @Author: Jamboy
  * @Date: 2021-12-06 14:10:12
- * @LastEditTime: 2021-12-07 18:16:17
+ * @LastEditTime: 2021-12-08 17:18:32
 -->
 
 <template>
@@ -52,6 +52,7 @@ import { defineComponent, ref } from 'vue'
 import LoginAccount from './login-account.vue'
 import LoginPhone from './login-phone.vue'
 
+import localCache from '@/utils/cache'
 import useLoginHook from '../hook/userLoginHook'
 
 export default defineComponent({
@@ -59,8 +60,10 @@ export default defineComponent({
   setup() {
     const btnText = ref('Login')
     const isKeepPassword = ref(false)
+    isKeepPassword.value = localCache.getCache('isKeepPassword')
     const onKeepPwdChange = () => {
       console.log('onKeepPwdChange: ', isKeepPassword.value)
+      localCache.setCache('isKeepPassword', isKeepPassword.value)
     }
 
     const { onTabChange, handleLoginClick, loginAccountRef, loginPhoneRef } =

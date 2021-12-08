@@ -2,7 +2,7 @@
  * @Description: vuex-login
  * @Author: Jamboy
  * @Date: 2021-12-08 09:54:44
- * @LastEditTime: 2021-12-08 15:10:26
+ * @LastEditTime: 2021-12-08 18:01:21
  */
 import { Module } from 'vuex'
 
@@ -60,8 +60,11 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userMenus = userMenusRes.data
       console.log('userMenus: ', userMenus)
       commit('changeUserMenus', userMenus)
+      localCache.setCache('userMenus', userMenus)
 
-      router.push('/main')
+      if (token) {
+        router.push('/main')
+      }
     },
 
     phoneLoginAction({ commit }, payload: any) {
