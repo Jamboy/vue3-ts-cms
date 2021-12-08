@@ -2,79 +2,79 @@
  * @Description: 登录面板
  * @Author: Jamboy
  * @Date: 2021-12-06 14:10:12
- * @LastEditTime: 2021-12-06 16:40:18
+ * @LastEditTime: 2021-12-07 18:16:17
 -->
 
 <template>
   <div class="login-panel">
-    <h1 class="login-title">BACKGROUNDSYSTEM</h1>
+    <h1 class="login-title">BACKGROUNDSYS</h1>
     <div class="content">
-      <el-tabs type="border-card" stretch>
+      <el-tabs type="border-card" stretch @tab-click="onTabChange">
         <el-tab-pane>
           <template #label>
-            <div>
-              <el-icon><user-filled /></el-icon>
-              Login
-            </div>
+            <el-icon>
+              <user-filled />
+            </el-icon>
+            Login
           </template>
-          <div>
-            <el-form
-              label-position="left"
-              label-width="80px"
-              :model="userFormData"
-            >
-              <el-form-item label="Name" required>
-                <el-input v-model="userFormData.name"></el-input>
-              </el-form-item>
-              <el-form-item label="Password" required>
-                <el-input v-model="userFormData.password"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
+          <LoginAccount ref="loginAccountRef"></LoginAccount>
         </el-tab-pane>
+
         <el-tab-pane>
           <template #label>
-            <el-icon><cellphone /></el-icon>Register
+            <el-icon> <cellphone /> </el-icon>Register
           </template>
-          <div>
-            <el-form
-              label-position="left"
-              label-width="80px"
-              :model="userFormData"
-            >
-              <el-form-item label="Phone" required>
-                <el-input v-model="userFormData.name"></el-input>
-              </el-form-item>
-              <el-form-item label="Password" required>
-                <el-input v-model="userFormData.password"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
+          <LoginPhone ref="loginPhoneRef"></LoginPhone>
         </el-tab-pane>
       </el-tabs>
     </div>
+
     <div class="password-container">
-      <el-checkbox label="记住密码" :indeterminate="false"></el-checkbox>
+      <el-checkbox
+        v-model="isKeepPassword"
+        label="记住密码"
+        :indeterminate="false"
+        @change="onKeepPwdChange"
+      ></el-checkbox>
       <span class="forget-password">忘记密码</span>
     </div>
     <div>
-      <el-button style="width: 100%" type="primary" size="default"
-        >Login
+      <el-button style="width: 100%" type="primary" @click="handleLoginClick"
+        >{{ btnText }}
       </el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-export default defineComponent({
-  setup() {
-    const userFormData = reactive({
-      name: '',
-      password: '',
-    })
+import { defineComponent, ref } from 'vue'
 
-    return { userFormData }
+import LoginAccount from './login-account.vue'
+import LoginPhone from './login-phone.vue'
+
+import useLoginHook from '../hook/userLoginHook'
+
+export default defineComponent({
+  components: { LoginAccount, LoginPhone },
+  setup() {
+    const btnText = ref('Login')
+    const isKeepPassword = ref(false)
+    const onKeepPwdChange = () => {
+      console.log('onKeepPwdChange: ', isKeepPassword.value)
+    }
+
+    const { onTabChange, handleLoginClick, loginAccountRef, loginPhoneRef } =
+      useLoginHook(isKeepPassword.value)
+
+    return {
+      btnText,
+      isKeepPassword,
+      onKeepPwdChange,
+      onTabChange,
+      handleLoginClick,
+      loginAccountRef,
+      loginPhoneRef,
+    }
   },
 })
 </script>

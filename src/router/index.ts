@@ -1,3 +1,9 @@
+/*
+ * @Description: 路由配置
+ * @Author: Jamboy
+ * @Date: 2021-12-03 18:00:05
+ * @LastEditTime: 2021-12-07 15:52:35
+ */
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import Login from '../views/login/Login.vue'
@@ -13,8 +19,8 @@ const routes: Array<RouteRecordRaw> = [
     component: Login,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/main',
+    name: 'Main',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
