@@ -1,3 +1,9 @@
+<!--
+ * @Description:
+ * @Author: Jamboy
+ * @Date: 2021-12-09 11:02:01
+ * @LastEditTime: 2021-12-09 11:50:37
+-->
 <template>
   <div class="user">
     <h2>user</h2>
@@ -11,7 +17,7 @@ export default defineComponent({
   name: 'user',
   setup() {
     return {}
-  }
+  },
 })
 </script>
 

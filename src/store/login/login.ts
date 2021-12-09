@@ -2,7 +2,7 @@
  * @Description: vuex-login
  * @Author: Jamboy
  * @Date: 2021-12-08 09:54:44
- * @LastEditTime: 2021-12-08 18:01:21
+ * @LastEditTime: 2021-12-09 11:50:08
  */
 import { Module } from 'vuex'
 
@@ -16,6 +16,8 @@ import {
   userMenusByRoleIdRequest,
 } from '../../service/login/login'
 import { IAccount } from '@/service/login/type'
+
+import { mapMenusToRoutes } from '@/utils/map-menus'
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
   state: {
@@ -35,6 +37,7 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus) {
       state.userMenus = userMenus
+      mapMenusToRoutes(userMenus)
     },
   },
   actions: {

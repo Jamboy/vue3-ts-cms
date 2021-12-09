@@ -3,5 +3,5 @@ export default {
   path: '/main/analysis/dashboard',
   name: 'dashboard',
   component: dashboard,
-  children: []
+  children: [],
 }
