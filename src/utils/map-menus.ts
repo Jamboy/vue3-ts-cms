@@ -2,12 +2,11 @@
  * @Description: 菜单>routers
  * @Author: Jamboy
  * @Date: 2021-12-09 11:39:13
- * @LastEditTime: 2021-12-09 14:16:57
+ * @LastEditTime: 2021-12-09 14:43:31
  */
 import type { RouteRecord, RouteRecordRaw } from 'vue-router'
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const userRoutes: RouteRecordRaw[] = []
-
   // 1. 获取到所有的routers
   const allRoutes: RouteRecord[] = []
   // webpack 查找文件

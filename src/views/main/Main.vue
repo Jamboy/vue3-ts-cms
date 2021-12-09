@@ -2,7 +2,7 @@
  * @Description: 首页
  * @Author: Jamboy
  * @Date: 2021-12-06 14:11:39
- * @LastEditTime: 2021-12-09 10:42:02
+ * @LastEditTime: 2021-12-09 15:32:16
 -->
 <template>
   <div class="main">
@@ -14,7 +14,11 @@
         <el-header class="page-header">
           <NavHeader @fold-click="handleFoldClick"></NavHeader>
         </el-header>
-        <el-main class="page-content">Main</el-main>
+        <el-main class="page-content">
+          <div class="page-info">
+            <router-view></router-view>
+          </div>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -49,6 +53,11 @@ export default defineComponent({
 .main-content,
 .page {
   height: 100%;
+
+  .page-info {
+    background-color: #fff;
+    height: 100%;
+  }
 }
 
 .page-content {
