@@ -2,7 +2,7 @@
  * @Description: 左侧菜单
  * @Author: Jamboy
  * @Date: 2021-12-08 16:18:39
- * @LastEditTime: 2021-12-08 18:06:51
+ * @LastEditTime: 2021-12-09 09:53:57
 -->
 
 <template>
@@ -11,24 +11,37 @@
       <img class="img" src="~@/assets/img/logo.png" />
       <span class="title">v3</span>
     </div>
-    <el-menu class="el-menu-vertical" @open="handleOpen" @close="handleClose">
+    <el-menu
+      active-text-color="#ffd04b"
+      background-color="#001529"
+      default-active="2"
+      text-color="#fff"
+      :collapse="isCollapsed"
+      :collapse-transition="false"
+      class="el-menu-vertical"
+      @open="handleOpen"
+      @close="handleClose"
+    >
       <template v-for="item in userMenus" :key="item.id">
         <template v-if="item.type === 1">
-          <el-sub-menu>
+          <el-sub-menu :index="item.id + ''">
             <template #title>
+              <el-icon>
+                <setting />
+              </el-icon>
               <span>
                 {{ item.name }}
               </span>
             </template>
+            <template v-for="subItem in item.children" :key="subItem.id">
+              <el-menu-item :index="subItem.id + ''">
+                <span>{{ subItem.name }}</span>
+              </el-menu-item>
+            </template>
           </el-sub-menu>
-          <template v-for="subItem in item.children" :key="subItem.id">
-            <el-menu-item>
-              <span>{{ subItem.name }}</span>
-            </el-menu-item>
-          </template>
         </template>
         <template v-if="item.type === 2">
-          <el-menu-item>
+          <el-menu-item :index="item.id + ''">
             <span>{{ item.name }}</span>
           </el-menu-item>
         </template>
@@ -41,6 +54,12 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 export default defineComponent({
+  props: {
+    isCollapsed: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
@@ -62,7 +81,6 @@ export default defineComponent({
 .nav-menu {
   height: 100%;
   background-color: #001529;
-
   .logo {
     display: flex;
     height: 28px;
@@ -70,7 +88,6 @@ export default defineComponent({
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-
     .img {
       height: 100%;
       margin: 0 10px;

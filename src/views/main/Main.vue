@@ -2,16 +2,18 @@
  * @Description: 首页
  * @Author: Jamboy
  * @Date: 2021-12-06 14:11:39
- * @LastEditTime: 2021-12-08 16:33:44
+ * @LastEditTime: 2021-12-09 10:42:02
 -->
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="210px">
-        <NavMenu></NavMenu>
+      <el-aside :class="isCollapsed ? 'hideAside' : ''">
+        <NavMenu :isCollapsed="isCollapsed"></NavMenu>
       </el-aside>
       <el-container class="page">
-        <el-header class="page-header">Header</el-header>
+        <el-header class="page-header">
+          <NavHeader @fold-click="handleFoldClick"></NavHeader>
+        </el-header>
         <el-main class="page-content">Main</el-main>
       </el-container>
     </el-container>
@@ -19,13 +21,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import NavMenu from '@/components/nav-menu'
+import NavHeader from '@/components/nav-header'
 
 export default defineComponent({
-  components: { NavMenu },
+  components: { NavMenu, NavHeader },
   setup() {
-    return {}
+    const isCollapsed = ref(false)
+    const handleFoldClick = (isFold: boolean) => {
+      isCollapsed.value = isFold
+    }
+    return { handleFoldClick, isCollapsed }
   },
 })
 </script>
@@ -68,15 +75,23 @@ export default defineComponent({
   overflow-y: auto;
   line-height: 200px;
   text-align: left;
+  width: 210px;
   cursor: pointer;
   background-color: #001529;
-  transition: width 0.3s linear;
   scrollbar-width: none; /* firefox */
   -ms-overflow-style: none; /* IE 10+ */
-
+  transition: width 0.1s linear;
   &::-webkit-scrollbar {
     display: none;
   }
+  // transition: width 0.1s;
+  // -webkit-transition: width 0.1s;
+  // -moz-transition: width 0.1s;
+  // -o-transition: width 0.1s;
+}
+
+.hideAside {
+  width: 60px;
 }
 
 .el-main {
