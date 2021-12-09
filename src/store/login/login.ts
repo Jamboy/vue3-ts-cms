@@ -2,7 +2,7 @@
  * @Description: vuex-login
  * @Author: Jamboy
  * @Date: 2021-12-08 09:54:44
- * @LastEditTime: 2021-12-09 11:50:08
+ * @LastEditTime: 2021-12-09 14:23:11
  */
 import { Module } from 'vuex'
 
@@ -37,7 +37,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus) {
       state.userMenus = userMenus
-      mapMenusToRoutes(userMenus)
+      const routes = mapMenusToRoutes(userMenus)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     },
   },
   actions: {

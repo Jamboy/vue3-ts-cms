@@ -80,7 +80,7 @@ export default defineComponent({
   background-color: #001529;
   scrollbar-width: none; /* firefox */
   -ms-overflow-style: none; /* IE 10+ */
-  transition: width 0.1s linear;
+  transition: width 0.1s;
   &::-webkit-scrollbar {
     display: none;
   }

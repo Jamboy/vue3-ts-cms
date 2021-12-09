@@ -2,7 +2,7 @@
  * @Description: 路由配置
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2021-12-09 11:36:38
+ * @LastEditTime: 2021-12-09 14:22:03
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'

@@ -2,7 +2,7 @@
  * @Description: 左侧菜单
  * @Author: Jamboy
  * @Date: 2021-12-08 16:18:39
- * @LastEditTime: 2021-12-09 09:53:57
+ * @LastEditTime: 2021-12-09 14:32:52
 -->
 
 <template>
@@ -17,10 +17,8 @@
       default-active="2"
       text-color="#fff"
       :collapse="isCollapsed"
-      :collapse-transition="false"
       class="el-menu-vertical"
-      @open="handleOpen"
-      @close="handleClose"
+      collapse-transition="false"
     >
       <template v-for="item in userMenus" :key="item.id">
         <template v-if="item.type === 1">
@@ -34,7 +32,10 @@
               </span>
             </template>
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item :index="subItem.id + ''">
+              <el-menu-item
+                :index="subItem.id + ''"
+                @click="handleMenuClick(subItem)"
+              >
                 <span>{{ subItem.name }}</span>
               </el-menu-item>
             </template>
@@ -53,6 +54,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   props: {
     isCollapsed: {
@@ -61,18 +63,19 @@ export default defineComponent({
     },
   },
   setup() {
+    const router = useRouter()
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
     console.log('userMenus: ', userMenus)
 
-    const handleOpen = () => {
-      console.log('handleOpen: ')
-    }
-    const handleClose = () => {
-      console.log('handleClose: ')
+    const handleMenuClick = (menu: any) => {
+      console.log('menu: ', menu)
+      router.push({
+        path: menu.url,
+      })
     }
 
-    return { handleOpen, handleClose, userMenus }
+    return { userMenus, handleMenuClick }
   },
 })
 </script>
