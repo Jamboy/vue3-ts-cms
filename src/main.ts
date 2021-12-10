@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:04
- * @LastEditTime: 2021-12-08 15:04:36
+ * @LastEditTime: 2021-12-10 14:39:51
  */
 import { createApp } from 'vue'
 // import ElementPlus from 'element-plus'
@@ -21,7 +21,7 @@ const app = createApp(App)
 for (const iconName in ElIcons) {
   app.component(iconName, (ElIcons as any)[iconName])
 }
+setupStore()
 app.use(store)
 app.use(router)
 app.mount('#app')
-setupStore()
