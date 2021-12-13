@@ -2,7 +2,7 @@
  * @Description: 账号登录面板
  * @Author: Jamboy
  * @Date: 2021-12-07 10:17:58
- * @LastEditTime: 2021-12-08 10:08:26
+ * @LastEditTime: 2021-12-13 09:28:27
 -->
 <template>
   <div>
@@ -41,21 +41,14 @@ export default defineComponent({
     })
 
     const accountFormRef = ref<InstanceType<typeof ElForm>>()
-    const router = useRouter()
     const loginAction = (isKeepPassword = true) => {
-      console.log('loginAction: ', '正在登陸', isKeepPassword)
       accountFormRef.value?.validate((valid) => {
         console.log(valid)
         if (valid) {
           if (isKeepPassword) {
             savePassword()
           }
-          console.log('loginAction: ', '校验通过，登录中')
-          router.push({
-            name: 'Main',
-          })
-
-          //
+          console.log('loginAction: ', '校验通过，登录中的')
           store.dispatch('login/accountLoginAction', { ...account })
         }
       })

@@ -2,9 +2,12 @@
  * @Description: 菜单>routers
  * @Author: Jamboy
  * @Date: 2021-12-09 11:39:13
- * @LastEditTime: 2021-12-09 14:43:31
+ * @LastEditTime: 2021-12-13 14:27:49
  */
 import type { RouteRecord, RouteRecordRaw } from 'vue-router'
+import { IBreadcrumb } from '@/base-ui/breadcrumb/types/types'
+
+let firstMenu: any = null
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const userRoutes: RouteRecordRaw[] = []
   // 1. 获取到所有的routers
@@ -37,6 +40,9 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
     for (const menu of menus) {
       if (menu.type === 2) {
         const route = allRoutes.find((route) => route.path === menu.url)
+        if (!firstMenu) {
+          firstMenu = menu
+        }
         if (route) {
           userRoutes.push(route)
         }
@@ -48,3 +54,31 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   _recurseGetRoute(userMenus)
   return userRoutes
 }
+
+export function pathMapToMenu(
+  userMenus: any[],
+  path: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], path)
+      if (findMenu) {
+        breadcrumbs?.push({ name: menu.name })
+        breadcrumbs?.push({ name: findMenu.name })
+        return findMenu
+      }
+    } else if (menu.type === 2 && menu.url === path) {
+      return menu
+    }
+  }
+}
+
+export function pathMapToBreadcrumbs(userMenus: any[], path: string): any {
+  const breadcrumbs: IBreadcrumb[] = []
+  // 数组 引用传递
+  pathMapToMenu(userMenus, path, breadcrumbs)
+  return breadcrumbs
+}
+
+export { firstMenu }

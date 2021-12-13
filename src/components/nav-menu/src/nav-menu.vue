@@ -2,7 +2,7 @@
  * @Description: 左侧菜单
  * @Author: Jamboy
  * @Date: 2021-12-08 16:18:39
- * @LastEditTime: 2021-12-09 14:32:52
+ * @LastEditTime: 2021-12-10 17:03:10
 -->
 
 <template>
@@ -14,7 +14,7 @@
     <el-menu
       active-text-color="#ffd04b"
       background-color="#001529"
-      default-active="2"
+      :default-active="currentMenuId"
       text-color="#fff"
       :collapse="isCollapsed"
       class="el-menu-vertical"
@@ -52,9 +52,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, onMounted } from 'vue'
 import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 export default defineComponent({
   props: {
     isCollapsed: {
@@ -64,18 +65,20 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+    const route = useRoute()
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
-    console.log('userMenus: ', userMenus)
+
+    const currentMenu = pathMapToMenu(userMenus.value, route.path)
+    const currentMenuId = ref(currentMenu.id + '')
 
     const handleMenuClick = (menu: any) => {
-      console.log('menu: ', menu)
       router.push({
         path: menu.url,
       })
     }
 
-    return { userMenus, handleMenuClick }
+    return { userMenus, handleMenuClick, currentMenuId }
   },
 })
 </script>
@@ -117,10 +120,10 @@ export default defineComponent({
     }
   }
 
-  ::v-deep .el-submenu__title {
+  :deep .el-submenu__title {
     background-color: #001529 !important;
   }
-
+  textField_kx05unxj
   // hover 高亮
   .el-menu-item:hover {
     color: #fff !important; // 菜单

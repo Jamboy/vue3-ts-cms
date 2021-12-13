@@ -2,7 +2,7 @@
  * @Description: header
  * @Author: Jamboy
  * @Date: 2021-12-09 09:27:56
- * @LastEditTime: 2021-12-09 15:02:21
+ * @LastEditTime: 2021-12-13 14:38:07
 -->
 <template>
   <div class="nav-header">
@@ -13,7 +13,7 @@
       </el-icon>
     </div>
     <div class="content">
-      <div>ff</div>
+      <JABreadcrumb :breadcrumbs="breadcrumbs"></JABreadcrumb>
       <div class="userinfo">
         <UserInfo></UserInfo>
       </div>
@@ -22,20 +22,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, reactive, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import UserInfo from '../src/user-info.vue'
+import JABreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb/index'
+import { pathMapToBreadcrumbs } from '@/utils/map-menus'
 export default defineComponent({
   emits: ['fold-click'],
   components: {
     UserInfo,
+    JABreadcrumb,
   },
+
   setup(prop, { emit }) {
     const isFold = ref(false)
     const handleFoldClick = () => {
       isFold.value = !isFold.value
       emit('fold-click', isFold.value)
     }
-    return { handleFoldClick, isFold }
+
+    const breadcrumbs = computed(() => {
+      const store = useStore()
+      const route = useRoute()
+      return pathMapToBreadcrumbs(store.state.login.userMenus, route.path)
+    })
+
+    return { handleFoldClick, isFold, breadcrumbs }
   },
 })
 </script>

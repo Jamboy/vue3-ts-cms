@@ -2,12 +2,13 @@
  * @Description: 路由配置
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2021-12-10 14:37:08
+ * @LastEditTime: 2021-12-10 15:41:24
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import Login from '../views/login/Login.vue'
 import localCache from '@/utils/cache'
+import { firstMenu } from '@/utils/map-menus'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -46,6 +47,10 @@ router.beforeEach((to) => {
     if (!token) {
       return '/login'
     }
+  }
+  if (to.path === '/main') {
+    console.log('to.path: ', to.path)
+    return firstMenu.url
   }
 })
 
