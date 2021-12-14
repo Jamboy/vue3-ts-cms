@@ -2,7 +2,7 @@
  * @Description: base-form
  * @Author: Jamboy
  * @Date: 2021-12-09 15:45:56
- * @LastEditTime: 2021-12-10 14:04:07
+ * @LastEditTime: 2021-12-14 09:47:02
 -->
 <template>
   <div>
@@ -12,7 +12,7 @@
           <template v-if="item.type === 'input'">
             <el-col v-bind="formConfig.colLayout">
               <el-form-item :label="item.label" :style="formConfig.itemStyle">
-                <el-input :model="formData.name"></el-input>
+                <el-input v-model="formData[`${item.propName}`]"></el-input>
               </el-form-item>
             </el-col>
           </template>
@@ -21,7 +21,11 @@
             v-bind="formConfig.colLayout"
           >
             <el-form-item :label="item.label" :style="formConfig.itemStyle">
-              <el-select style="width: 100%" :placeholder="item.placeholder">
+              <el-select
+                style="width: 100%"
+                :placeholder="item.placeholder"
+                v-model="formData[`${item.propName}`]"
+              >
                 <el-option
                   v-for="option in item.options"
                   :key="option.title"
@@ -38,8 +42,8 @@
           >
             <el-form-item :label="item.label" :style="formConfig.itemStyle">
               <el-date-picker
+                v-model="formData[`${item.propName}`]"
                 :type="item.otherOptions && item.otherOptions.type"
-                size="normal"
                 :placeholder="
                   item.otherOptions && item.otherOptions.placeholder
                 "
@@ -55,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 import type { IFormType, IForm } from '../types'
 export default defineComponent({
@@ -110,13 +114,10 @@ export default defineComponent({
         }
       },
     },
+    formData: {},
   },
   setup(props) {
     console.log('props: ', props.formConfig)
-    const formData = reactive({
-      name: '',
-    })
-    return { formData }
   },
 })
 </script>

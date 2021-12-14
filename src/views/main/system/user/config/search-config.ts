@@ -12,20 +12,20 @@ const formConfig: IForm = {
   },
   formItems: [
     {
-      label: '测试',
+      label: 'id',
       placeholder: '请输入',
       type: 'input',
-      propName: 'user',
+      propName: 'id',
     },
     {
-      label: '测试2',
+      label: 'name',
       placeholder: '请输入222',
       type: 'input',
-      propName: 'userTest2',
+      propName: 'name',
     },
     {
-      propName: 'userTest3',
-      label: '测试2',
+      propName: 'password',
+      label: 'password',
       placeholder: '请输入测试2',
       type: 'select',
       options: [
@@ -41,13 +41,13 @@ const formConfig: IForm = {
     },
     {
       label: '测试2',
-      propName: 'userTest4',
+      propName: 'sport',
       placeholder: '请输入222',
       type: 'input',
     },
     {
       label: '测试3',
-      propName: 'userTest6',
+      propName: 'createTime',
       placeholder: '请输入222',
       type: 'datepicker',
       otherOptions: {

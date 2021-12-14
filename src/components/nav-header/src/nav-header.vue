@@ -2,7 +2,7 @@
  * @Description: header
  * @Author: Jamboy
  * @Date: 2021-12-09 09:27:56
- * @LastEditTime: 2021-12-13 14:38:07
+ * @LastEditTime: 2021-12-14 09:36:26
 -->
 <template>
   <div class="nav-header">
@@ -22,11 +22,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import UserInfo from '../src/user-info.vue'
-import JABreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb/index'
+import JABreadcrumb from '@/base-ui/breadcrumb/index'
 import { pathMapToBreadcrumbs } from '@/utils/map-menus'
 export default defineComponent({
   emits: ['fold-click'],

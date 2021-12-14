@@ -2,7 +2,7 @@
  * @Description: 左侧菜单
  * @Author: Jamboy
  * @Date: 2021-12-08 16:18:39
- * @LastEditTime: 2021-12-10 17:03:10
+ * @LastEditTime: 2021-12-14 09:48:05
 -->
 
 <template>
@@ -18,7 +18,7 @@
       text-color="#fff"
       :collapse="isCollapsed"
       class="el-menu-vertical"
-      collapse-transition="false"
+      :collapse-transition="false"
     >
       <template v-for="item in userMenus" :key="item.id">
         <template v-if="item.type === 1">
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
 import { useRouter, useRoute } from 'vue-router'
 import { pathMapToMenu } from '@/utils/map-menus'
