@@ -2,11 +2,11 @@
  * @Description: 登录
  * @Author: Jamboy
  * @Date: 2021-12-08 10:47:07
- * @LastEditTime: 2021-12-08 14:11:24
+ * @LastEditTime: 2021-12-14 15:37:45
  */
 import JARequest from '../index'
-import { IAccount, IDataType, ILoginResult } from './type'
-
+import { IAccount, ILoginResult } from './type'
+import { IDataType } from '../types'
 enum LoginApi {
   AccountLogin = '/login',
   LoginUserInfo = '/users/',

@@ -2,11 +2,12 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2021-12-08 17:41:42
+ * @LastEditTime: 2021-12-14 14:59:51
  */
 import { Store } from 'element-plus/es/components/table/src/store'
 import { createStore, useStore as useVuexStore } from 'vuex'
 import login from './login/login'
+import system from './main/system/system'
 
 import { IRootState, IStoreType } from './types'
 const store = createStore<IRootState>({
@@ -15,7 +16,7 @@ const store = createStore<IRootState>({
   },
   mutations: {},
   actions: {},
-  modules: { login },
+  modules: { login, system },
 })
 
 export function setupStore() {

@@ -2,7 +2,7 @@
  * @Description: 请求方法封装
  * @Author: Jamboy
  * @Date: 2021-12-04 16:00:33
- * @LastEditTime: 2021-12-08 10:48:20
+ * @LastEditTime: 2021-12-14 15:36:31
  */
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
@@ -81,7 +81,7 @@ class JARequest {
     )
   }
 
-  request<T>(config: JARequestConfig<T>): Promise<T> {
+  request<T = any>(config: JARequestConfig<T>): Promise<T> {
     return new Promise((resolver, reject) => {
       // 定义每个方法的拦截
       if (config.interceptors?.requestInterceptor) {
@@ -107,19 +107,19 @@ class JARequest {
     })
   }
 
-  get<T>(config: JARequestConfig<T>): Promise<T> {
+  get<T = any>(config: JARequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T>(config: JARequestConfig<T>): Promise<T> {
+  post<T = any>(config: JARequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T>(config: JARequestConfig<T>): Promise<T> {
+  delete<T = any>(config: JARequestConfig<T>): Promise<T> {
     return this.request({ ...config, method: 'DELETE' })
   }
 
-  patch<T>(config: JARequestConfig<T>): Promise<T> {
+  patch<T = any>(config: JARequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

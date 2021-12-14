@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-08 10:50:49
- * @LastEditTime: 2021-12-08 11:54:28
+ * @LastEditTime: 2021-12-14 15:37:21
  */
 export interface IAccount {
   name: string
@@ -14,9 +14,4 @@ export interface ILoginResult {
   id: number
   name: string
   token: string
-}
-
-export interface IDataType<T = any> {
-  code: 0
-  data: T
 }

@@ -2,7 +2,7 @@
  * @Description:页面搜索
  * @Author: Jamboy
  * @Date: 2021-12-14 14:03:03
- * @LastEditTime: 2021-12-14 14:11:09
+ * @LastEditTime: 2021-12-14 15:11:29
 -->
 <template>
   <div>
@@ -11,8 +11,8 @@
         <h2>高级</h2>
       </template>
       <template #footer>
-        <el-button size="default">重置</el-button>
-        <el-button type="primary" size="default">搜索</el-button>
+        <el-button>重置</el-button>
+        <el-button type="primary">搜索</el-button>
       </template>
     </JAForm>
   </div>
