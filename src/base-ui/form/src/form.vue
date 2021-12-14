@@ -2,7 +2,7 @@
  * @Description: base-form
  * @Author: Jamboy
  * @Date: 2021-12-09 15:45:56
- * @LastEditTime: 2021-12-14 09:47:02
+ * @LastEditTime: 2021-12-14 11:02:11
 -->
 <template>
   <div>
@@ -12,7 +12,9 @@
           <template v-if="item.type === 'input'">
             <el-col v-bind="formConfig.colLayout">
               <el-form-item :label="item.label" :style="formConfig.itemStyle">
-                <el-input v-model="formData[`${item.propName}`]"></el-input>
+                <el-input
+                  v-model="basicFormData[`${item.propName}`]"
+                ></el-input>
               </el-form-item>
             </el-col>
           </template>
@@ -24,7 +26,7 @@
               <el-select
                 style="width: 100%"
                 :placeholder="item.placeholder"
-                v-model="formData[`${item.propName}`]"
+                v-model="basicFormData[`${item.propName}`]"
               >
                 <el-option
                   v-for="option in item.options"
@@ -42,7 +44,7 @@
           >
             <el-form-item :label="item.label" :style="formConfig.itemStyle">
               <el-date-picker
-                v-model="formData[`${item.propName}`]"
+                v-model="basicFormData[`${item.propName}`]"
                 :type="item.otherOptions && item.otherOptions.type"
                 :placeholder="
                   item.otherOptions && item.otherOptions.placeholder
@@ -59,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 
 import type { IFormType, IForm } from '../types'
 export default defineComponent({
@@ -114,10 +116,24 @@ export default defineComponent({
         }
       },
     },
-    formData: {},
+    formData: {
+      type: Object,
+      default: () => ({}),
+    },
   },
-  setup(props) {
-    console.log('props: ', props.formConfig)
+  emits: ['update:formData'],
+  setup(props, { emit }) {
+    const basicFormData = ref({ ...props.formData })
+    watch(
+      basicFormData,
+      (newForm) => {
+        emit('update:formData', newForm)
+      },
+      {
+        deep: true,
+      }
+    )
+    return { basicFormData }
   },
 })
 </script>
