@@ -2,31 +2,25 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:01
- * @LastEditTime: 2021-12-14 10:50:16
+ * @LastEditTime: 2021-12-14 14:09:00
 -->
 <template>
   <div class="user">
-    <h2>user</h2>
-    <JAForm :formConfig="searchFormConfig" v-model:formData="formData"></JAForm>
+    <PageSearch :searchFormConfig="searchFormConfig"></PageSearch>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import JAForm from '@/base-ui/form'
 import searchFormConfig from './config/search-config'
+import { defineComponent } from 'vue'
+import PageSearch from '@/components/page-search'
 export default defineComponent({
   name: 'user',
-  components: { JAForm },
+  components: {
+    PageSearch,
+  },
   setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: '',
-    })
-    return { searchFormConfig, formData }
+    return { searchFormConfig }
   },
 })
 </script>

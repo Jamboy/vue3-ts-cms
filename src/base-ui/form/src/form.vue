@@ -2,10 +2,11 @@
  * @Description: base-form
  * @Author: Jamboy
  * @Date: 2021-12-09 15:45:56
- * @LastEditTime: 2021-12-14 11:02:11
+ * @LastEditTime: 2021-12-14 14:00:14
 -->
 <template>
   <div>
+    <slot name="header"></slot>
     <el-form ref="form" :label-width="formConfig.labelWidth" :model="formData">
       <el-row :gutter="20">
         <template v-for="item of formConfig.formItems" :key="item.label">
@@ -57,6 +58,7 @@
         </template>
       </el-row>
     </el-form>
+    <slot name="footer"></slot>
   </div>
 </template>
 
