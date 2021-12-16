@@ -2,11 +2,11 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2021-12-16 09:50:54
+ * @LastEditTime: 2021-12-16 11:58:12
 -->
 <template>
   <div class="page-content">
-    <JATable :listData="userList" v-bind="contentTableConfig">
+    <JATable :listData="listData" v-bind="contentTableConfig">
       <template #title>
         <h2>用好222</h2>
       </template>
@@ -46,22 +46,32 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    pageName: String,
   },
   components: {
     JATable,
   },
-  setup() {
+  setup(props) {
     const store = useStore()
     store.dispatch('system/getPageListAction', {
-      pageUrl: '/users/list',
+      pageName: props.pageName,
       queryInfo: { offset: 0, size: 10 },
     })
 
-    const userList = computed(() => store.state.system.userList)
-    const userCount = computed(() => store.state.system.userCount)
-    console.log('userCount: ', userCount.value)
-    console.log('userList: ', userList.value)
-    return { userList, userCount }
+    let listData
+    let listCount
+
+    switch (props.pageName) {
+      case 'user':
+        listData = computed(() => store.state.system.userList)
+        listCount = computed(() => store.state.system.userCount)
+        break
+      case 'role':
+        listData = computed(() => store.state.system.roleList)
+        listCount = computed(() => store.state.system.roleCount)
+        break
+    }
+    return { listData, listCount }
   },
 })
 </script>
