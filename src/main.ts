@@ -15,6 +15,7 @@ import { setupStore } from '@/store/index'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { globalRegister } from './global'
 
 // TODO: 注册icon提取
 const app = createApp(App)
@@ -24,4 +25,5 @@ for (const iconName in ElIcons) {
 setupStore()
 app.use(store)
 app.use(router)
+app.use(globalRegister)
 app.mount('#app')

@@ -2,7 +2,7 @@
  * @Description: 首页
  * @Author: Jamboy
  * @Date: 2021-12-06 14:11:39
- * @LastEditTime: 2021-12-14 09:48:31
+ * @LastEditTime: 2021-12-15 17:30:27
 -->
 <template>
   <div class="main">
@@ -28,7 +28,6 @@
 import { defineComponent, ref } from 'vue'
 import NavMenu from '@/components/nav-menu'
 import NavHeader from '@/components/nav-header'
-
 export default defineComponent({
   components: { NavMenu, NavHeader },
   setup() {
