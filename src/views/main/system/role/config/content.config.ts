@@ -2,7 +2,7 @@
  * @Description: role config
  * @Author: Jamboy
  * @Date: 2021-12-16 11:43:28
- * @LastEditTime: 2021-12-16 11:46:34
+ * @LastEditTime: 2021-12-16 13:48:33
  */
 
 /*
@@ -42,6 +42,7 @@ const contentTableConfig = {
   ],
   showIndex: true,
   showSelection: true,
+  title: '角色列表',
 }
 
 export default contentTableConfig

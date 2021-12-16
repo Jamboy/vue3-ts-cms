@@ -2,13 +2,13 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2021-12-16 11:58:12
+ * @LastEditTime: 2021-12-16 14:14:47
 -->
 <template>
   <div class="page-content">
     <JATable :listData="listData" v-bind="contentTableConfig">
       <template #title>
-        <h2>用好222</h2>
+        <h2>{{ contentTableConfig.title }}</h2>
       </template>
       <template #headerHandler>
         <el-button type="primary" size="mini">设置</el-button>
@@ -58,20 +58,21 @@ export default defineComponent({
       queryInfo: { offset: 0, size: 10 },
     })
 
-    let listData
-    let listCount
+    const listData = computed(() =>
+      store.getters['system/pageListData'](props.pageName)
+    )
 
-    switch (props.pageName) {
-      case 'user':
-        listData = computed(() => store.state.system.userList)
-        listCount = computed(() => store.state.system.userCount)
-        break
-      case 'role':
-        listData = computed(() => store.state.system.roleList)
-        listCount = computed(() => store.state.system.roleCount)
-        break
-    }
-    return { listData, listCount }
+    // switch (props.pageName) {
+    //   case 'user':
+    //     listData = computed(() => store.state.system.userList)
+    //     listCount = computed(() => store.state.system.userCount)
+    //     break
+    //   case 'role':
+    //     listData = computed(() => store.state.system.roleList)
+    //     listCount = computed(() => store.state.system.roleCount)
+    //     break
+    // }
+    return { listData }
   },
 })
 </script>
