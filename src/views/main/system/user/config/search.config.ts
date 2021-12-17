@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-10 13:56:48
- * @LastEditTime: 2021-12-10 14:07:03
+ * @LastEditTime: 2021-12-17 09:00:01
  */
 import type { IForm } from '@/base-ui/form/types/index'
 const formConfig: IForm = {
@@ -24,31 +24,15 @@ const formConfig: IForm = {
       propName: 'name',
     },
     {
-      propName: 'password',
-      label: 'password',
-      placeholder: '请输入测试2',
-      type: 'select',
-      options: [
-        {
-          title: 'select1',
-          value: 0,
-        },
-        {
-          title: 'select2',
-          value: 1,
-        },
-      ],
-    },
-    {
-      label: '测试2',
-      propName: 'sport',
-      placeholder: '请输入222',
+      label: '真实姓名',
+      propName: 'realname',
+      placeholder: '请输入真实名字',
       type: 'input',
     },
     {
-      label: '测试3',
-      propName: 'createTime',
-      placeholder: '请输入222',
+      label: '手机号',
+      propName: 'cellphone',
+      placeholder: '请输入手机号',
       type: 'datepicker',
       otherOptions: {
         placeholder: '选择日期',

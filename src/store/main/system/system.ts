@@ -2,7 +2,7 @@
  * @Description: 定义system store
  * @Author: Jamboy
  * @Date: 2021-12-14 14:54:53
- * @LastEditTime: 2021-12-16 14:10:15
+ * @LastEditTime: 2021-12-17 10:16:11
  */
 
 import { IRootState } from '@/store/types'
@@ -28,12 +28,17 @@ const systemModule: Module<ISystemState, IRootState> = {
 
   getters: {
     pageListData: (state) => (pageName: string) => {
+      // return (state as any)[`${pageName}List`]
       switch (pageName) {
         case 'user':
           return state[`userList`]
         case 'role':
           return state[`roleList`]
       }
+    },
+
+    pageListCount: (state) => (pageName: string) => {
+      return (state as any)[`${pageName}Count`]
     },
   },
 

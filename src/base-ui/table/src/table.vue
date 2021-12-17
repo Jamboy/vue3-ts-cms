@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-15 14:57:01
- * @LastEditTime: 2021-12-15 17:43:05
+ * @LastEditTime: 2021-12-17 11:15:57
 -->
 <template>
   <div class="ja-table">
@@ -30,11 +30,11 @@
     <div class="footer">
       <slot name="footer">
         <el-pagination
-          v-model:currentPage="currentPage"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          v-model:currentPage="pageInfo.currentPage"
+          :page-sizes="[10, 20, 30, 50]"
+          :page-size="pageInfo.pageSize"
           layout="total,sizes, prev, pager, next, jumper"
-          :total="totalPage"
+          :total="listCount"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         >
@@ -48,11 +48,13 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
+  emits: ['update:pageInfo'],
   props: {
     listData: {
       type: Array,
       required: true,
     },
+    listCount: Number,
     tableConfig: {
       type: Array,
       required: true,
@@ -65,17 +67,26 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    pageInfo: {
+      type: Object,
+      default: () => {
+        return {
+          currentPage: 1,
+          pageSize: 10,
+        }
+      },
+    },
   },
-  setup() {
-    const currentPage = ref(1)
-    const handleSizeChange = (val: any) => {
-      console.log(`${val} items per page`)
+  setup(props, { emit }) {
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:pageInfo', { ...props.pageInfo, pageSize })
     }
-    const handleCurrentChange = (val: any) => {
-      console.log(`current page: ${val}`)
+    const handleCurrentChange = (currentPage: number) => {
+      console.log('currentPage: number: ', currentPage)
+      emit('update:pageInfo', { ...props.pageInfo, currentPage })
     }
     const totalPage = ref(100)
-    return { currentPage, handleSizeChange, handleCurrentChange, totalPage }
+    return { handleSizeChange, handleCurrentChange, totalPage }
   },
 })
 </script>

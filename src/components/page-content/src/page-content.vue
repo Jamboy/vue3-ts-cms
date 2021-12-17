@@ -2,11 +2,16 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2021-12-16 14:14:47
+ * @LastEditTime: 2021-12-17 11:25:05
 -->
 <template>
   <div class="page-content">
-    <JATable :listData="listData" v-bind="contentTableConfig">
+    <JATable
+      :listData="listData"
+      :listCount="listCount"
+      v-bind="contentTableConfig"
+      v-model:pageInfo="pageInfo"
+    >
       <template #title>
         <h2>{{ contentTableConfig.title }}</h2>
       </template>
@@ -36,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import JATable from '@/base-ui/table'
 
@@ -53,26 +58,29 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: { offset: 0, size: 10 },
-    })
 
+    const pageInfo = ref({ pageSize: 10, currentPage: 0 })
+    watch(pageInfo, () => getPageData())
+
+    const getPageData = (queryObj: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: pageInfo.value.pageSize * pageInfo.value.currentPage,
+          size: pageInfo.value.pageSize,
+          ...queryObj,
+        },
+      })
+    }
+    getPageData()
     const listData = computed(() =>
       store.getters['system/pageListData'](props.pageName)
     )
 
-    // switch (props.pageName) {
-    //   case 'user':
-    //     listData = computed(() => store.state.system.userList)
-    //     listCount = computed(() => store.state.system.userCount)
-    //     break
-    //   case 'role':
-    //     listData = computed(() => store.state.system.roleList)
-    //     listCount = computed(() => store.state.system.roleCount)
-    //     break
-    // }
-    return { listData }
+    const listCount = computed(() =>
+      store.getters['system/pageListCount'](props.pageName)
+    )
+    return { listData, getPageData, listCount, pageInfo }
   },
 })
 </script>

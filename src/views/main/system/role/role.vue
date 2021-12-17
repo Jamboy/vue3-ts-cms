@@ -2,13 +2,18 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:29
- * @LastEditTime: 2021-12-16 14:38:36
+ * @LastEditTime: 2021-12-17 10:03:08
 -->
 <template>
   <div class="role">
     <h2>role</h2>
-    <PageSearch :searchFormConfig="searchFormConfig"></PageSearch>
+    <PageSearch
+      :searchFormConfig="searchFormConfig"
+      @resetClick="handleReset"
+      @searchClick="handleSearch"
+    ></PageSearch>
     <PageContent
+      ref="pageContent"
       :contentTableConfig="contentTableConfig"
       pageName="role"
     ></PageContent>
@@ -21,11 +26,21 @@ import PageContent from '@/components/page-content'
 import PageSearch from '@/components/page-search'
 import contentTableConfig from './config/content.config'
 import searchFormConfig from './config/search.config'
+import { usePageSearchHook } from '@/hooks/usePageSearch'
+
 export default defineComponent({
   name: 'role',
   components: { PageContent, PageSearch },
   setup() {
-    return { contentTableConfig, searchFormConfig }
+    const { handleReset, handleSearch, pageContent } = usePageSearchHook()
+
+    return {
+      contentTableConfig,
+      searchFormConfig,
+      pageContent,
+      handleReset,
+      handleSearch,
+    }
   },
 })
 </script>

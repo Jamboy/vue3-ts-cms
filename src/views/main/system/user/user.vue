@@ -2,12 +2,17 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:01
- * @LastEditTime: 2021-12-16 11:42:55
+ * @LastEditTime: 2021-12-17 10:02:52
 -->
 <template>
   <div class="user">
-    <PageSearch :searchFormConfig="searchFormConfig"></PageSearch>
+    <PageSearch
+      :searchFormConfig="searchFormConfig"
+      @resetClick="handleReset"
+      @searchClick="handleSearch"
+    ></PageSearch>
     <PageContent
+      ref="pageContent"
       :contentTableConfig="contentTableConfig"
       pageName="user"
     ></PageContent>
@@ -15,11 +20,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import searchFormConfig from './config/search.config'
 import contentTableConfig from './config/content.config'
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
+import { usePageSearchHook } from '@/hooks/usePageSearch'
 export default defineComponent({
   name: 'user',
   components: {
@@ -27,7 +33,14 @@ export default defineComponent({
     PageContent,
   },
   setup() {
-    return { searchFormConfig, contentTableConfig }
+    const { handleReset, handleSearch, pageContent } = usePageSearchHook()
+    return {
+      searchFormConfig,
+      contentTableConfig,
+      handleReset,
+      handleSearch,
+      pageContent,
+    }
   },
 })
 </script>
