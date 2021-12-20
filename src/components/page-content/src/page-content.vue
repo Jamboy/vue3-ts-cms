@@ -2,7 +2,7 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2021-12-17 11:25:05
+ * @LastEditTime: 2021-12-20 10:34:02
 -->
 <template>
   <div class="page-content">
@@ -19,11 +19,6 @@
         <el-button type="primary" size="mini">设置</el-button>
       </template>
 
-      <template #status="{ row }">
-        <el-button type="success" size="mini" plain>{{
-          row.enable === '1' ? '启用' : '关闭'
-        }}</el-button>
-      </template>
       <template #createAt="{ row }">
         {{ $filters.formatTime(row.createAt) }}
       </template>
@@ -35,6 +30,19 @@
           编辑
         </el-button>
         <el-button type="text" size="mini">删除</el-button>
+      </template>
+
+      <!-- bind dynamic slot -->
+      <template
+        v-for="item in otherConfig"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <slot
+          v-if="item.isDynamicSlot"
+          :name="item.slotName"
+          :row="scope.row"
+        ></slot>
       </template>
     </JATable>
   </div>
@@ -80,7 +88,14 @@ export default defineComponent({
     const listCount = computed(() =>
       store.getters['system/pageListCount'](props.pageName)
     )
-    return { listData, getPageData, listCount, pageInfo }
+
+    const otherConfig = props.contentTableConfig.tableConfig.filter(
+      (item: any) => {
+        return item.isDynamicSlot
+      }
+    )
+    console.log('otherConfig: ', otherConfig)
+    return { listData, getPageData, listCount, pageInfo, otherConfig }
   },
 })
 </script>

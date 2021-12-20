@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:29
- * @LastEditTime: 2021-12-17 10:03:08
+ * @LastEditTime: 2021-12-20 10:35:00
 -->
 <template>
   <div class="role">
@@ -16,7 +16,13 @@
       ref="pageContent"
       :contentTableConfig="contentTableConfig"
       pageName="role"
-    ></PageContent>
+    >
+      <template #status="{ row }">
+        <el-button type="success" size="mini" plain>{{
+          row.enable === '1' ? '上架' : '下架'
+        }}</el-button>
+      </template>
+    </PageContent>
   </div>
 </template>
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:01
- * @LastEditTime: 2021-12-17 10:02:52
+ * @LastEditTime: 2021-12-20 10:35:11
 -->
 <template>
   <div class="user">
@@ -15,12 +15,18 @@
       ref="pageContent"
       :contentTableConfig="contentTableConfig"
       pageName="user"
-    ></PageContent>
+    >
+      <template #status="{ row }">
+        <el-button type="success" size="mini" plain>{{
+          row.enable === '1' ? '启用' : '禁用'
+        }}</el-button>
+      </template>
+    </PageContent>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import searchFormConfig from './config/search.config'
 import contentTableConfig from './config/content.config'
 import PageSearch from '@/components/page-search'

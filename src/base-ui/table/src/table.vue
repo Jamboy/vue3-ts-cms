@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-15 14:57:01
- * @LastEditTime: 2021-12-17 11:15:57
+ * @LastEditTime: 2021-12-20 09:32:22
 -->
 <template>
   <div class="ja-table">
@@ -18,7 +18,7 @@
         type="index"
       ></el-table-column>
       <template v-for="item in tableConfig" :key="item.prop">
-        <el-table-column v-bind="item">
+        <el-table-column v-bind="item" show-overflow-tooltip>
           <template #default="{ row }">
             <slot :name="item.slotName" :row="row">
               {{ row[item.prop] }}

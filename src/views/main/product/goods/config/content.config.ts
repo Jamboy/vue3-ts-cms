@@ -2,7 +2,7 @@
  * @Description: tableConfig
  * @Author: Jamboy
  * @Date: 2021-12-16 09:29:25
- * @LastEditTime: 2021-12-20 10:34:21
+ * @LastEditTime: 2021-12-20 10:34:37
  */
 
 const contentTableConfig = {
@@ -16,18 +16,31 @@ const contentTableConfig = {
       label: 'Name',
     },
     {
-      prop: 'realname',
-      label: '真实姓名',
+      prop: 'imgUrl',
+      label: '预览图',
+      slotName: 'imgUrl',
+      isDynamicSlot: true,
     },
     {
-      prop: 'cellphone',
-      label: '手机号',
+      prop: 'oldPrice',
+      label: '折扣价',
+      slotName: 'oldPrice',
+      isDynamicSlot: true,
     },
     {
-      prop: 'enable',
+      prop: 'newPrice',
+      label: '原价',
+    },
+    {
+      prop: 'status',
       label: '状态',
       slotName: 'status',
       isDynamicSlot: true,
+    },
+    {
+      prop: 'address',
+      label: '地区',
+      isFixedSlot: true,
     },
     {
       prop: 'createAt',
