@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-15 14:57:01
- * @LastEditTime: 2021-12-20 09:32:22
+ * @LastEditTime: 2021-12-20 11:15:33
 -->
 <template>
   <div class="ja-table">
@@ -10,7 +10,12 @@
       <slot class="title" name="title"> </slot>
       <slot class="handler" name="headerHandler"></slot>
     </div>
-    <el-table :data="listData" style="width: 100%" border>
+    <el-table
+      :data="listData"
+      style="width: 100%"
+      border
+      v-bind="childrenProps"
+    >
       <el-table-column v-if="showSelection" type="selection"></el-table-column>
       <el-table-column
         v-if="showIndex"
@@ -76,6 +81,7 @@ export default defineComponent({
         }
       },
     },
+    childrenProps: Object,
   },
   setup(props, { emit }) {
     const handleSizeChange = (pageSize: number) => {

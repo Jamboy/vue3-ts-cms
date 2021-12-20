@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-14 14:56:10
- * @LastEditTime: 2021-12-17 11:42:04
+ * @LastEditTime: 2021-12-20 11:11:43
  */
 
 export interface ISystemState {
@@ -12,4 +12,6 @@ export interface ISystemState {
   roleCount: number
   goodsList: any[]
   goodsCount: number
+  menuList: any[]
+  menuCount: number
 }

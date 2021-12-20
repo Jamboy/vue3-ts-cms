@@ -2,7 +2,7 @@
  * @Description: 定义system store
  * @Author: Jamboy
  * @Date: 2021-12-14 14:54:53
- * @LastEditTime: 2021-12-17 11:42:29
+ * @LastEditTime: 2021-12-20 11:13:10
  */
 
 import { IRootState } from '@/store/types'
@@ -25,6 +25,8 @@ const systemModule: Module<ISystemState, IRootState> = {
       roleCount: 0,
       goodsList: [],
       goodsCount: 0,
+      menuList: [],
+      menuCount: 0,
     }
   },
 
@@ -38,6 +40,8 @@ const systemModule: Module<ISystemState, IRootState> = {
           return state[`roleList`]
         case 'goods':
           return state[`goodsList`]
+        case 'menu':
+          return state[`menuList`]
       }
     },
 
@@ -70,6 +74,13 @@ const systemModule: Module<ISystemState, IRootState> = {
     changeGoodsCount(state, goodsCount) {
       state.goodsCount = goodsCount
     },
+    changeMenuList(state, menuList) {
+      state.menuList = menuList
+    },
+
+    changeMenuCount(state, menuCount) {
+      state.menuCount = menuCount
+    },
   },
 
   actions: {
@@ -84,6 +95,9 @@ const systemModule: Module<ISystemState, IRootState> = {
           break
         case 'goods':
           pageUrl = '/goods/list'
+          break
+        case 'menu':
+          pageUrl = '/menu/list'
           break
       }
       const pageRes = await getPageListRequest(pageUrl, payload.queryInfo)
