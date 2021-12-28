@@ -2,7 +2,7 @@
  * @Description: 菜单>routers
  * @Author: Jamboy
  * @Date: 2021-12-09 11:39:13
- * @LastEditTime: 2021-12-13 14:27:49
+ * @LastEditTime: 2021-12-20 14:03:33
  */
 import type { RouteRecord, RouteRecordRaw } from 'vue-router'
 import { IBreadcrumb } from '@/base-ui/breadcrumb/types/types'
@@ -79,6 +79,21 @@ export function pathMapToBreadcrumbs(userMenus: any[], path: string): any {
   // 数组 引用传递
   pathMapToMenu(userMenus, path, breadcrumbs)
   return breadcrumbs
+}
+
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+  const _recurseGetPermissions = (userMenus: any[]) => {
+    for (const menu of userMenus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermissions(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermissions(userMenus)
+  return permissions
 }
 
 export { firstMenu }

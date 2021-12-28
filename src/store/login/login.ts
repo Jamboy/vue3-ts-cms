@@ -2,7 +2,7 @@
  * @Description: vuex-login
  * @Author: Jamboy
  * @Date: 2021-12-08 09:54:44
- * @LastEditTime: 2021-12-14 15:32:35
+ * @LastEditTime: 2021-12-20 14:13:44
  */
 import { Module } from 'vuex'
 
@@ -17,13 +17,14 @@ import {
 } from '../../service/login/login'
 import { IAccount } from '@/service/login/type'
 
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
   state: {
     token: '',
     userInfo: {},
     userMenus: [],
+    permissions: [],
   },
   getters: {},
   mutations: {
@@ -41,6 +42,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
     },
   },
   actions: {
