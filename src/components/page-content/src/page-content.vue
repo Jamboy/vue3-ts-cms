@@ -2,7 +2,7 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2021-12-20 10:34:02
+ * @LastEditTime: 2021-12-30 10:05:48
 -->
 <template>
   <div class="page-content">
@@ -16,20 +16,25 @@
         <h2>{{ contentTableConfig.title }}</h2>
       </template>
       <template #headerHandler>
-        <el-button type="primary" size="mini">设置</el-button>
+        <el-button v-if="isCreate" type="primary" size="mini"
+          >新建用户</el-button
+        >
       </template>
 
       <template #createAt="{ row }">
         {{ $filters.formatTime(row.createAt) }}
       </template>
+      <template #updateAt="{ row }">
+        {{ $filters.formatTime(row.updateAt) }}
+      </template>
       <template #handler>
-        <el-button type="text" size="mini">
+        <el-button v-if="isUpdate" type="text" size="mini">
           <el-icon>
             <edit></edit>
           </el-icon>
           编辑
         </el-button>
-        <el-button type="text" size="mini">删除</el-button>
+        <el-button v-if="isDelete" type="text" size="mini">删除</el-button>
       </template>
 
       <!-- bind dynamic slot -->
@@ -52,6 +57,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import JATable from '@/base-ui/table'
+import { usePermission } from '@/hooks/usePermission'
 
 export default defineComponent({
   props: {
@@ -59,18 +65,28 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    pageName: String,
+    pageName: {
+      required: true,
+      type: String,
+    },
   },
   components: {
     JATable,
   },
   setup(props) {
-    const store = useStore()
+    const isCreate = usePermission(props.pageName, 'create')
+    const isDelete = usePermission(props.pageName, 'delete')
+    const isUpdate = usePermission(props.pageName, 'update')
+    const isQuery = usePermission(props.pageName, 'query')
 
+    const store = useStore()
     const pageInfo = ref({ pageSize: 10, currentPage: 0 })
     watch(pageInfo, () => getPageData())
 
     const getPageData = (queryObj: any = {}) => {
+      if (!isQuery) {
+        return
+      }
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -95,7 +111,16 @@ export default defineComponent({
       }
     )
     console.log('otherConfig: ', otherConfig)
-    return { listData, getPageData, listCount, pageInfo, otherConfig }
+    return {
+      listData,
+      getPageData,
+      listCount,
+      pageInfo,
+      otherConfig,
+      isCreate,
+      isDelete,
+      isUpdate,
+    }
   },
 })
 </script>

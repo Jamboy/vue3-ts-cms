@@ -2,7 +2,7 @@
  * @Description: 类型
  * @Author: Jamboy
  * @Date: 2021-12-04 17:46:30
- * @LastEditTime: 2021-12-06 12:00:14
+ * @LastEditTime: 2021-12-29 10:41:27
  */
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 

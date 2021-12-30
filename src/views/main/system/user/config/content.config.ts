@@ -2,7 +2,7 @@
  * @Description: tableConfig
  * @Author: Jamboy
  * @Date: 2021-12-16 09:29:25
- * @LastEditTime: 2021-12-20 10:34:21
+ * @LastEditTime: 2021-12-30 10:07:21
  */
 
 const contentTableConfig = {
@@ -37,6 +37,7 @@ const contentTableConfig = {
     {
       prop: 'updateAt',
       label: '更新时间',
+      slotName: 'updateAt',
     },
     {
       label: '操作',
