@@ -2,7 +2,7 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2021-12-30 10:05:48
+ * @LastEditTime: 2022-01-04 09:53:42
 -->
 <template>
   <div class="page-content">
@@ -27,14 +27,20 @@
       <template #updateAt="{ row }">
         {{ $filters.formatTime(row.updateAt) }}
       </template>
-      <template #handler>
+      <template #handler="{ row }">
         <el-button v-if="isUpdate" type="text" size="mini">
           <el-icon>
             <edit></edit>
           </el-icon>
           编辑
         </el-button>
-        <el-button v-if="isDelete" type="text" size="mini">删除</el-button>
+        <el-button
+          v-if="isDelete"
+          type="text"
+          size="mini"
+          @click="handleClickDelete(row)"
+          >删除</el-button
+        >
       </template>
 
       <!-- bind dynamic slot -->
@@ -50,11 +56,23 @@
         ></slot>
       </template>
     </JATable>
+
+    <!-- <el-dialog v-model="dialogVisible" title="Warning" width="30%" center>
+      <span>哈哈哈</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="dialogVisible = false"
+            >Confirm</el-button
+          >
+        </span>
+      </template>
+    </el-dialog> -->
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch } from 'vue'
+import { defineComponent, computed, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import JATable from '@/base-ui/table'
 import { usePermission } from '@/hooks/usePermission'
@@ -81,6 +99,7 @@ export default defineComponent({
 
     const store = useStore()
     const pageInfo = ref({ pageSize: 10, currentPage: 0 })
+    const dialogVisible = ref(true)
     watch(pageInfo, () => getPageData())
 
     const getPageData = (queryObj: any = {}) => {
@@ -96,7 +115,9 @@ export default defineComponent({
         },
       })
     }
+
     getPageData()
+
     const listData = computed(() =>
       store.getters['system/pageListData'](props.pageName)
     )
@@ -110,7 +131,15 @@ export default defineComponent({
         return item.isDynamicSlot
       }
     )
-    console.log('otherConfig: ', otherConfig)
+
+    const handleClickDelete = (row: any) => {
+      console.log('row: ', row.id)
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: row.id,
+      })
+    }
+
     return {
       listData,
       getPageData,
@@ -120,6 +149,8 @@ export default defineComponent({
       isCreate,
       isDelete,
       isUpdate,
+      handleClickDelete,
+      dialogVisible,
     }
   },
 })

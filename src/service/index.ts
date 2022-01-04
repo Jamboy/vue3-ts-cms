@@ -2,7 +2,7 @@
  * @Description: service 统一出口
  * @Author: Jamboy
  * @Date: 2021-12-04 15:58:44
- * @LastEditTime: 2021-12-08 14:05:06
+ * @LastEditTime: 2021-12-31 16:52:01
  */
 import JARequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
@@ -21,7 +21,6 @@ const jaRequest = new JARequest({
           config.headers.Authorization = `Bearer ${token}`
         }
       }
-
       return config
     },
     requestInterceptorsCatch: (err) => {

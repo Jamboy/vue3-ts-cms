@@ -2,13 +2,16 @@
  * @Description: 定义system store
  * @Author: Jamboy
  * @Date: 2021-12-14 14:54:53
- * @LastEditTime: 2021-12-20 11:13:10
+ * @LastEditTime: 2021-12-30 11:56:43
  */
 
 import { IRootState } from '@/store/types'
 import { Module } from 'vuex'
 import { ISystemState } from './types'
-import { getPageListRequest } from '../../../service/main/system/system'
+import {
+  deletePageData,
+  getPageListRequest,
+} from '../../../service/main/system/system'
 
 interface IPageListRequest {
   pageName: string
@@ -113,6 +116,22 @@ const systemModule: Module<ISystemState, IRootState> = {
       )}Count`
       commit(COMMIT_LIST_NAME, list)
       commit(COMMIT_COUNT_NAME, totalCount)
+    },
+
+    // 根据id删除
+    async deletePageDataAction({ dispatch }, payload: any) {
+      const { pageName, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+
+      await deletePageData(pageUrl)
+
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+        },
+      })
     },
   },
 }

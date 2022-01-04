@@ -2,12 +2,17 @@
  * @Description: base-form
  * @Author: Jamboy
  * @Date: 2021-12-09 15:45:56
- * @LastEditTime: 2021-12-16 16:07:10
+ * @LastEditTime: 2022-01-04 10:35:53
 -->
 <template>
   <div>
     <slot name="header"></slot>
-    <el-form ref="form" :label-width="formConfig.labelWidth" :model="formData">
+    <el-form
+      ref="form"
+      :label-width="formConfig.labelWidth"
+      :model="formData"
+      label-position="right"
+    >
       <el-row :gutter="20">
         <template v-for="item of formConfig.formItems" :key="item.label">
           <template v-if="item.type === 'input'">
