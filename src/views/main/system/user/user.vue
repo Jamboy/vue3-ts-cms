@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:01
- * @LastEditTime: 2022-01-04 17:45:09
+ * @LastEditTime: 2022-01-05 09:18:06
 -->
 <template>
   <div class="user">
@@ -28,6 +28,7 @@
       ref="pageModalRef"
       :modalConfig="modalConfigRef"
       :defaultInfo="defaultInfo"
+      pageName="user"
     >
     </PageModal>
   </div>
@@ -84,6 +85,14 @@ export default defineComponent({
           return { title: item.name, value: item.id }
         }
       )
+
+      const roleItem = modalConfig.formItems?.find((item) => {
+        return item.propName === 'roleId'
+      })
+      roleItem!.options = store.state.entireRoles.map((item: any) => {
+        return { title: item.name, id: item.id }
+      })
+
       return modalConfig
     })
 

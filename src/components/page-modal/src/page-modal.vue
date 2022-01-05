@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2022-01-04 10:41:00
- * @LastEditTime: 2022-01-04 16:59:52
+ * @LastEditTime: 2022-01-05 09:56:12
 -->
 <template>
   <el-dialog
@@ -16,7 +16,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button type="primary" @click="handleConfirmClick"
           >Confirm</el-button
         >
       </span>
@@ -26,6 +26,7 @@
 
 <script lang="ts">
 import JAForm from '@/base-ui/form'
+import store from '@/store'
 import { defineComponent, ref, watch } from 'vue'
 export default defineComponent({
   components: { JAForm },
@@ -36,7 +37,9 @@ export default defineComponent({
     },
     defaultInfo: {
       type: Object,
+      default: () => ({}),
     },
+    pageName: String,
   },
   setup(props) {
     const dialogVisible = ref(false)
@@ -49,7 +52,25 @@ export default defineComponent({
         }
       }
     )
-    return { dialogVisible, formData }
+
+    const handleConfirmClick = () => {
+      dialogVisible.value = false
+      if (!Object.keys(props.defaultInfo).length) {
+        // 新增
+        store.dispatch('system/createPageDataAction', {
+          pageName: props.pageName,
+          newData: { ...formData.value },
+        })
+      } else {
+        // 编辑
+        store.dispatch('system/editPageDataAction', {
+          pageName: props.pageName,
+          editData: { ...formData.value },
+          id: props.defaultInfo.id,
+        })
+      }
+    }
+    return { dialogVisible, formData, handleConfirmClick }
   },
 })
 </script>

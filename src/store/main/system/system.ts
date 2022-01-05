@@ -2,7 +2,7 @@
  * @Description: 定义system store
  * @Author: Jamboy
  * @Date: 2021-12-14 14:54:53
- * @LastEditTime: 2021-12-30 11:56:43
+ * @LastEditTime: 2022-01-05 09:57:50
  */
 
 import { IRootState } from '@/store/types'
@@ -11,6 +11,8 @@ import { ISystemState } from './types'
 import {
   deletePageData,
   getPageListRequest,
+  addPageData,
+  editPageData,
 } from '../../../service/main/system/system'
 
 interface IPageListRequest {
@@ -124,6 +126,34 @@ const systemModule: Module<ISystemState, IRootState> = {
       const pageUrl = `/${pageName}/${id}`
 
       await deletePageData(pageUrl)
+
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+        },
+      })
+    },
+
+    async createPageDataAction({ dispatch }, payload: any) {
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+      const res = await addPageData(pageUrl, newData)
+      console.log('res: ', res)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+        },
+      })
+    },
+
+    async editPageDataAction({ dispatch }, payload: any) {
+      const { pageName, editData, id } = payload
+      const pageUrl = `/${pageName}${id}`
+      await editPageData(pageUrl, editData)
 
       dispatch('getPageListAction', {
         pageName,

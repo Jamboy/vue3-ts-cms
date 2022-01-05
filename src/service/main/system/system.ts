@@ -2,7 +2,7 @@
  * @Description: system 网络请求
  * @Author: Jamboy
  * @Date: 2021-12-14 15:17:11
- * @LastEditTime: 2021-12-30 11:01:59
+ * @LastEditTime: 2022-01-05 09:38:24
  */
 
 import { IDataType } from '@/service/types'
@@ -18,5 +18,18 @@ export function getPageListRequest(url: string, queryInfo: any) {
 export function deletePageData(url: string) {
   return JARequest.delete<IDataType>({
     url,
+  })
+}
+
+export function addPageData(url: string, newData: any) {
+  return JARequest.post<IDataType>({
+    url,
+    data: newData,
+  })
+}
+export function editPageData(url: string, editData: any) {
+  return JARequest.patch<IDataType>({
+    url,
+    data: editData,
   })
 }

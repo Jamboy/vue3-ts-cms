@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2022-01-04 09:57:35
- * @LastEditTime: 2022-01-04 17:27:38
+ * @LastEditTime: 2022-01-05 09:17:04
  */
 import type { IForm } from '@/base-ui/form/types/index'
 
@@ -38,6 +38,13 @@ export const modalConfig: IForm = {
       placeholder: '请选择部门',
       type: 'select',
       propName: 'department',
+      options: [],
+    },
+    {
+      label: '角色',
+      placeholder: '请选择角色',
+      type: 'select',
+      propName: 'roleId',
       options: [],
     },
   ],
