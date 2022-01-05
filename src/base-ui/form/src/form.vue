@@ -2,37 +2,36 @@
  * @Description: base-form
  * @Author: Jamboy
  * @Date: 2021-12-09 15:45:56
- * @LastEditTime: 2022-01-04 10:35:53
+ * @LastEditTime: 2022-01-04 16:34:59
 -->
 <template>
   <div>
     <slot name="header"></slot>
     <el-form
       ref="form"
-      :label-width="formConfig.labelWidth"
+      :label-width="labelWidth"
       :model="formData"
       label-position="right"
     >
       <el-row :gutter="20">
-        <template v-for="item of formConfig.formItems" :key="item.label">
+        <template v-for="item of formItems" :key="item.label">
           <template v-if="item.type === 'input'">
-            <el-col v-bind="formConfig.colLayout">
-              <el-form-item :label="item.label" :style="formConfig.itemStyle">
-                <el-input
-                  v-model="basicFormData[`${item.propName}`]"
-                ></el-input>
+            <el-col v-bind="colLayout">
+              <el-form-item
+                v-if="!item.isHidden"
+                :label="item.label"
+                :style="itemStyle"
+              >
+                <el-input v-model="formData[`${item.propName}`]"></el-input>
               </el-form-item>
             </el-col>
           </template>
-          <el-col
-            v-else-if="item.type === 'select'"
-            v-bind="formConfig.colLayout"
-          >
-            <el-form-item :label="item.label" :style="formConfig.itemStyle">
+          <el-col v-else-if="item.type === 'select'" v-bind="colLayout">
+            <el-form-item :label="item.label" :style="itemStyle">
               <el-select
                 style="width: 100%"
                 :placeholder="item.placeholder"
-                v-model="basicFormData[`${item.propName}`]"
+                v-model="formData[`${item.propName}`]"
               >
                 <el-option
                   v-for="option in item.options"
@@ -44,13 +43,10 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col
-            v-else-if="item.type === 'datepicker'"
-            v-bind="formConfig.colLayout"
-          >
-            <el-form-item :label="item.label" :style="formConfig.itemStyle">
+          <el-col v-else-if="item.type === 'datepicker'" v-bind="colLayout">
+            <el-form-item :label="item.label" :style="itemStyle">
               <el-date-picker
-                v-model="basicFormData[`${item.propName}`]"
+                v-model="formData[`${item.propName}`]"
                 :type="item.otherOptions && item.otherOptions.type"
                 :placeholder="
                   item.otherOptions && item.otherOptions.placeholder
@@ -68,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType, toRefs, watch } from 'vue'
 
 import type { IFormType, IForm } from '../types'
 export default defineComponent({
@@ -129,18 +125,29 @@ export default defineComponent({
     },
   },
   emits: ['update:formData'],
-  setup(props, { emit }) {
-    const basicFormData = ref({ ...props.formData })
+  setup(props) {
+    const { labelWidth, formItems, itemStyle, colLayout } = toRefs(
+      props.formConfig
+    )
+
+    console.log('props.formConfig: ', props.formConfig)
+
+    // const basicFormData = ref({ ...props.formData })
     watch(
-      basicFormData,
+      () => props.formConfig,
       (newForm) => {
-        emit('update:formData', newForm)
+        console.log('props.formConfig: ', newForm)
       },
       {
         deep: true,
       }
     )
-    return { basicFormData }
+    return {
+      labelWidth,
+      formItems,
+      itemStyle,
+      colLayout,
+    }
   },
 })
 </script>

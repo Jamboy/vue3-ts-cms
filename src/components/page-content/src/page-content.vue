@@ -2,7 +2,7 @@
  * @Description: page content
  * @Author: Jamboy
  * @Date: 2021-12-16 09:46:56
- * @LastEditTime: 2022-01-04 09:53:42
+ * @LastEditTime: 2022-01-04 11:12:15
 -->
 <template>
   <div class="page-content">
@@ -16,9 +16,14 @@
         <h2>{{ contentTableConfig.title }}</h2>
       </template>
       <template #headerHandler>
-        <el-button v-if="isCreate" type="primary" size="mini"
-          >新建用户</el-button
+        <el-button
+          v-if="isCreate"
+          type="primary"
+          size="mini"
+          @click="handleNewBtnClick"
         >
+          新建用户
+        </el-button>
       </template>
 
       <template #createAt="{ row }">
@@ -28,7 +33,12 @@
         {{ $filters.formatTime(row.updateAt) }}
       </template>
       <template #handler="{ row }">
-        <el-button v-if="isUpdate" type="text" size="mini">
+        <el-button
+          v-if="isUpdate"
+          type="text"
+          size="mini"
+          @click="handleEditClick(row)"
+        >
           <el-icon>
             <edit></edit>
           </el-icon>
@@ -56,18 +66,6 @@
         ></slot>
       </template>
     </JATable>
-
-    <!-- <el-dialog v-model="dialogVisible" title="Warning" width="30%" center>
-      <span>哈哈哈</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >Confirm</el-button
-          >
-        </span>
-      </template>
-    </el-dialog> -->
   </div>
 </template>
 
@@ -78,6 +76,7 @@ import JATable from '@/base-ui/table'
 import { usePermission } from '@/hooks/usePermission'
 
 export default defineComponent({
+  emits: ['handleNewBtnClick', 'handleEditClick'],
   props: {
     contentTableConfig: {
       type: Object,
@@ -91,7 +90,7 @@ export default defineComponent({
   components: {
     JATable,
   },
-  setup(props) {
+  setup(props, { emit }) {
     const isCreate = usePermission(props.pageName, 'create')
     const isDelete = usePermission(props.pageName, 'delete')
     const isUpdate = usePermission(props.pageName, 'update')
@@ -140,6 +139,14 @@ export default defineComponent({
       })
     }
 
+    const handleNewBtnClick = () => {
+      emit('handleNewBtnClick')
+    }
+
+    const handleEditClick = (item: any) => {
+      emit('handleEditClick', { item })
+    }
+
     return {
       listData,
       getPageData,
@@ -151,6 +158,8 @@ export default defineComponent({
       isUpdate,
       handleClickDelete,
       dialogVisible,
+      handleNewBtnClick,
+      handleEditClick,
     }
   },
 })

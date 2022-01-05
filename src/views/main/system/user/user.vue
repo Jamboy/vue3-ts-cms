@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-09 11:02:01
- * @LastEditTime: 2022-01-04 10:45:00
+ * @LastEditTime: 2022-01-04 17:45:09
 -->
 <template>
   <div class="user">
@@ -15,6 +15,8 @@
       ref="pageContent"
       :contentTableConfig="contentTableConfig"
       pageName="user"
+      @handleNewBtnClick="handleNewUserClick"
+      @handleEditClick="handleEditClick"
     >
       <template #status="{ row }">
         <el-button type="success" size="mini" plain>{{
@@ -22,12 +24,18 @@
         }}</el-button>
       </template>
     </PageContent>
-    <PageModal :modalConfig="modalConfig"> </PageModal>
+    <PageModal
+      ref="pageModalRef"
+      :modalConfig="modalConfigRef"
+      :defaultInfo="defaultInfo"
+    >
+    </PageModal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useStore } from 'vuex'
 import searchFormConfig from './config/search.config'
 import contentTableConfig from './config/content.config'
 import { modalConfig } from './config/modal.config'
@@ -35,6 +43,7 @@ import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
 import PageModal from '@/components/page-modal'
 import { usePageSearchHook } from '@/hooks/usePageSearch'
+import { usePageModalHook } from '@/hooks/usePageModal'
 export default defineComponent({
   name: 'user',
   components: {
@@ -44,13 +53,54 @@ export default defineComponent({
   },
   setup() {
     const { handleReset, handleSearch, pageContent } = usePageSearchHook()
+    const newCb = () => {
+      const passwordItem = modalConfig.formItems?.find((item) => {
+        return item.propName == 'password'
+      })
+      if (passwordItem) {
+        passwordItem.isHidden = false
+      }
+      console.log('passwordItem: ', passwordItem)
+    }
+    const editCb = () => {
+      const passwordItem = modalConfig.formItems?.find((item) => {
+        return item.propName == 'password'
+      })
+      if (passwordItem) {
+        passwordItem.isHidden = true
+      }
+      console.log('passwordItem: ', passwordItem)
+    }
+
+    // 处理动态部门列表
+    const modalConfigRef = computed(() => {
+      const store = useStore()
+      const departmentItem = modalConfig.formItems?.find((item) => {
+        return item.propName === 'department'
+      })
+
+      departmentItem!.options = store.state.entireDepartment.map(
+        (item: any) => {
+          return { title: item.name, value: item.id }
+        }
+      )
+      return modalConfig
+    })
+
+    const { handleNewUserClick, handleEditClick, pageModalRef, defaultInfo } =
+      usePageModalHook(newCb, editCb)
+
     return {
       searchFormConfig,
       contentTableConfig,
       handleReset,
       handleSearch,
       pageContent,
-      modalConfig,
+      modalConfigRef,
+      handleNewUserClick,
+      handleEditClick,
+      pageModalRef,
+      defaultInfo,
     }
   },
 })

@@ -2,7 +2,7 @@
  * @Description: eslint 配置
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2021-12-13 15:05:37
+ * @LastEditTime: 2022-01-04 17:37:40
  */
 module.exports = {
   root: true,
@@ -27,5 +27,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'vue/no-mutating-props': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+
   },
 }

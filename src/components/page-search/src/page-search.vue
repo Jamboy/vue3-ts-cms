@@ -2,7 +2,7 @@
  * @Description:页面搜索
  * @Author: Jamboy
  * @Date: 2021-12-14 14:03:03
- * @LastEditTime: 2021-12-16 17:20:10
+ * @LastEditTime: 2022-01-04 15:06:35
 -->
 <template>
   <div>
@@ -40,8 +40,11 @@ export default defineComponent({
     const formData = ref(formOriData)
 
     const handleReset = () => {
-      for (const key in formOriData) {
-        formData.value[`${key}`] = formOriData[key]
+      // for (const key in formOriData) {
+      //   formData.value[`${key}`] = formOriData[key]
+      // }
+      for (const key in formData.value) {
+        formData.value[key] = ''
       }
       emit('resetClick')
     }
