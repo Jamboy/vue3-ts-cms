@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2022-01-04 17:24:26
+ * @LastEditTime: 2022-01-05 11:16:19
  */
 import { getPageListRequest } from '@/service/main/system/system'
 import { Store } from 'element-plus/es/components/table/src/store'
@@ -13,7 +13,12 @@ import system from './main/system/system'
 import { IRootState, IStoreType } from './types'
 const store = createStore<IRootState>({
   state() {
-    return { name: 'fff', entireDepartment: [], entireRoles: [] }
+    return {
+      name: 'fff',
+      entireDepartment: [],
+      entireRoles: [],
+      entireMenu: [],
+    }
   },
   mutations: {
     changeDepartment(state, list) {
@@ -21,6 +26,9 @@ const store = createStore<IRootState>({
     },
     changeRole(state, list) {
       state.entireRoles = list
+    },
+    changeMenu(state, list) {
+      state.entireMenu = list
     },
   },
   actions: {
@@ -38,6 +46,10 @@ const store = createStore<IRootState>({
       })
       const { list: roleList } = roleRes.data
       commit('changeRole', roleList)
+
+      const menuRes = await getPageListRequest('/menu/list', {})
+      const { list: menuList } = menuRes.data
+      commit('changeMenu', menuList)
     },
   },
   modules: { login, system },

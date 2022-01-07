@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2022-01-04 10:41:00
- * @LastEditTime: 2022-01-05 09:56:12
+ * @LastEditTime: 2022-01-05 11:26:29
 -->
 <template>
   <el-dialog
@@ -13,6 +13,7 @@
     destroy-on-close
   >
     <JAForm :formConfig="modalConfig" v-model:formData="formData"></JAForm>
+    <slot></slot>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
@@ -39,7 +40,14 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    pageName: String,
+    pageName: {
+      type: String,
+      required: true,
+    },
+    otherInfo: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   setup(props) {
     const dialogVisible = ref(false)
@@ -59,13 +67,13 @@ export default defineComponent({
         // 新增
         store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
-          newData: { ...formData.value },
+          newData: { ...formData.value, ...props.otherInfo },
         })
       } else {
         // 编辑
         store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id,
         })
       }

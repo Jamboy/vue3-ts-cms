@@ -2,7 +2,7 @@
  * @Description: 菜单>routers
  * @Author: Jamboy
  * @Date: 2021-12-09 11:39:13
- * @LastEditTime: 2021-12-20 14:03:33
+ * @LastEditTime: 2022-01-06 17:03:01
  */
 import type { RouteRecord, RouteRecordRaw } from 'vue-router'
 import { IBreadcrumb } from '@/base-ui/breadcrumb/types/types'
@@ -94,6 +94,21 @@ export function mapMenusToPermissions(userMenus: any[]) {
   }
   _recurseGetPermissions(userMenus)
   return permissions
+}
+
+export function mapMenusToLeafKeys(menuList: any[]) {
+  const leafKeys: number[] = []
+  const _recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        _recurseGetLeaf(menu.children)
+      } else {
+        leafKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+  return leafKeys
 }
 
 export { firstMenu }
