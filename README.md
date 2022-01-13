@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Jamboy
  * @Date: 2021-12-03 18:00:05
- * @LastEditTime: 2022-01-13 18:30:33
+ * @LastEditTime: 2022-01-13 18:35:27
 -->
 
 # vue3-ts-cms
@@ -10,7 +10,7 @@
 ## Project setup
 
 ```
-npm install 测试
+npm install 测
 ```
 
 ### Compiles and hot-reloads for development
